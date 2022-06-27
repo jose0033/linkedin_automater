@@ -1,0 +1,55 @@
+
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import time
+from itertools import islice
+
+
+#start of loop
+#Please Inswert manually the file title below, and leave no headers or rows before the actual username/password
+shopeelogin = pd.read_excel('Warren Accounts.xlsx', usecols="A:B", header=None, index_col=None)
+for key,value in shopeelogin.iterrows():
+
+    #print(shopeelogin)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--incognito")
+    chromedriver= r"C:\Users\joseph.ong\Downloads\chromedriver_win32\chromedriver.exe"
+    driver = webdriver.Chrome(chromedriver, options=chrome_options)
+    print("Starting Login Process....")
+#addd open (copy it down)
+    print("username: ", value[0])
+    print("password: ",value[1])
+    driver.get("http://shopee.sg/buyer/login?next=https%253A%252F%252Fshopee.sg%252F")
+    print('Standby Load....')
+    time.sleep(3)
+    print('Loading Finished')
+    #//driver.get("http://shopee.sg/buyer/login?next=https%253A%252F%252Fshopee.sg%252F")
+    #time.sleep(3)
+
+#check
+#print(shopeelogin)
+# start loop and read from the excel sheet
+    user_input = driver.find_element_by_name('loginKey')
+#refereneCSVinformation
+    USERNAME = value[0]
+    user_input.send_keys(USERNAME)
+    password_input = driver.find_element_by_name('password')
+#ReferenceCSV
+    PASSWORD = value[1]
+    password_input.send_keys(PASSWORD)
+#login
+    login_button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,'//*[@id="main"]/div/div[2]/div/div/form/div/div[2]/button')))
+#driver.find_element_by_xpath("//*[contains(text(),'Login')]")
+    login_button.click()
+    #print(login_button)
+    time.sleep(3)
+    print('Final load up on site')
+    driver.close()
+    print('Done iteration action')
+
+#close tab here
+automationlogin.py
+Displaying automationlogin.py.
